@@ -1,0 +1,88 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: story-deployment
+spec:
+    replicas: 2
+    selector:
+      matchLabels:
+         app: story
+    template:
+      metadata:
+        labels:
+          app: story  
+      spec:
+        containers:
+          - name: story
+            image: elvismasiya89/kub-data-demo:latest
+            imagePullPolicy: Always
+            env:
+              - name: STORY_FOLDER
+                # value: 'story'
+                valueFrom:
+                  configMapKeyRef:
+                    name: data-store-env
+                    key: folder
+            volumeMounts:
+              - mountPath: /app/story
+                name: story-volume
+        volumes:
+          - name: story-volume
+            persistentVolumeClaim:
+                claimName: host-pvc
+            # emptyDir: {} 
+            # hostPath:
+            #   path: /data
+            #   type: DirectoryOrCreate
+              
+                 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  # selector:
+  #   matchLabels:
+  #     app: myapp
+  # template:
+  #   metadata:
+  #     labels:
+  #       app: myapp
+  #   spec:
+  #     containers:
+  #     - name: myapp
+  #       image: <Image>
+  #       resources:
+  #         limits:
+  #           memory: "128Mi"
+  #           cpu: "500m"
+  #       ports:
+  #       - containerPort: <Port>

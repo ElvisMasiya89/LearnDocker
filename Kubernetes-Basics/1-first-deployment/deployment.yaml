@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: second-app-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: second-app  
+    # matchExpressions:
+    #   - {key: app, operator: In, values: [second-app] }  
+  template:    #This is where you describe what should be included in the pod
+      metadata:
+        labels:
+          app: second-app
+      spec:
+        containers:
+          - name: second-node 
+            image: elvismasiya89/kub-first-app  
+            livenessProbe:
+              httpGet:
+                path: /
+                port: 8080
+                # periodSeconds: 10
+                # initialDelaySeconds: 5
+        
+       
+     
+
+    
